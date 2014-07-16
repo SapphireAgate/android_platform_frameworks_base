@@ -1107,7 +1107,7 @@ public class GpsLocationProvider implements LocationProviderInterface {
         synchronized (mLocation) {
             mLocationFlags = flags;
 // begin WITH_TAINT_TRACKING
-            int tag = Taint.TAINT_LOCATION | Taint.TAINT_LOCATION_GPS;
+            int tag = dalvik.agate.PolicyManagementModule.mergePolicies(Taint.TAINT_LOCATION, Taint.TAINT_LOCATION_GPS);
 
             if ((flags & LOCATION_HAS_LAT_LONG) == LOCATION_HAS_LAT_LONG) {
                 mLocation.setLatitude(Taint.addTaintDouble(latitude, tag));

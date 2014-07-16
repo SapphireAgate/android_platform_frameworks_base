@@ -1930,10 +1930,10 @@ public class LocationManagerService extends ILocationManager.Stub {
 // begin WITH_TAINT_TRACKING
 		int tag = Taint.TAINT_LOCATION;
 		if (LocationManager.GPS_PROVIDER.equals(provider)) {
-			tag |= Taint.TAINT_LOCATION_GPS;
+			tag = dalvik.agate.PolicyManagementModule.mergePolicies(tag, Taint.TAINT_LOCATION_GPS);
 		}
 		if (LocationManager.NETWORK_PROVIDER.equals(provider)) {
-			tag |= Taint.TAINT_LOCATION_NET;
+			tag = dalvik.agate.PolicyManagementModule.mergePolicies(tag, Taint.TAINT_LOCATION_NET);
 		}
 		myLocation.setLatitude(Taint.addTaintDouble(myLocation.getLatitude(), tag));
 		myLocation.setLongitude(Taint.addTaintDouble(myLocation.getLongitude(), tag));

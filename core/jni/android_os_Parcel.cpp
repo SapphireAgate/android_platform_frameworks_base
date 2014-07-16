@@ -621,7 +621,7 @@ static void android_os_Parcel_enforceInterface(JNIEnv* env, jclass clazz, jint n
 }
 
 #ifdef WITH_TAINT_TRACKING
-static void android_os_Parcel_updateTaint(JNIEnv* env, jobject clazz, jint tag, jint start, jint len)
+static void android_os_Parcel_updateTaintImpl(JNIEnv* env, jobject clazz, jint tag, jint start, jint len)
 {
     Parcel *parcel = parcelForJavaObject(env, clazz);
     if (parcel != NULL){
@@ -692,7 +692,7 @@ static const JNINativeMethod gParcelMethods[] = {
     {"nativeWriteInterfaceToken", "(ILjava/lang/String;)V", (void*)android_os_Parcel_writeInterfaceToken},
     {"nativeEnforceInterface",    "(ILjava/lang/String;)V", (void*)android_os_Parcel_enforceInterface},
 #ifdef WITH_TAINT_TRACKING
-    {"updateTaint",              "(III)V", (void*)android_os_Parcel_updateTaint},
+    {"updateTaintImpl",              "(III)V", (void*)android_os_Parcel_updateTaintImpl},
     {"getTaint",                 "(II)I", (void*)android_os_Parcel_getTaint},
 #endif
 };

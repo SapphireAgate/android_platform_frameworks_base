@@ -31003,6 +31003,77 @@ package com.android.internal.util {
 
 }
 
+package dalvik.agate {
+
+  public final class PolicyManagementModule {
+    ctor public PolicyManagementModule();
+    method public static boolean addPolicyBoolean(boolean, int);
+    method public static void addPolicyBooleanArray(boolean[], int);
+    method public static byte addPolicyByte(byte, int);
+    method public static void addPolicyByteArray(byte[], int);
+    method public static char addPolicyChar(char, int);
+    method public static void addPolicyCharArray(char[], int);
+    method public static void addPolicyDirectByteBuffer(java.nio.ByteBuffer, int);
+    method public static double addPolicyDouble(double, int);
+    method public static void addPolicyDoubleArray(double[], int);
+    method public static void addPolicyFile(int, int);
+    method public static float addPolicyFloat(float, int);
+    method public static void addPolicyFloatArray(float[], int);
+    method public static int addPolicyInt(int, int);
+    method public static void addPolicyIntArray(int[], int);
+    method public static long addPolicyLong(long, int);
+    method public static void addPolicyLongArray(long[], int);
+    method public static void addPolicyObjectArray(java.lang.Object[], int);
+    method public static short addPolicyShort(short, int);
+    method public static void addPolicyShortArray(short[], int);
+    method public static void addPolicyString(java.lang.String, int);
+    method public static boolean canFlow(int, int);
+	method public static int mergePolicies(int, int);
+    method public static int getPolicyBoolean(boolean);
+    method public static int getPolicyBooleanArray(boolean[]);
+    method public static int getPolicyByte(byte);
+    method public static int getPolicyByteArray(byte[]);
+    method public static int getPolicyChar(char);
+    method public static int getPolicyCharArray(char[]);
+    method public static int getPolicyDirectByteBuffer(java.nio.ByteBuffer);
+    method public static int getPolicyDouble(double);
+    method public static int getPolicyDoubleArray(double[]);
+    method public static int getPolicyFile(int);
+    method public static int getPolicyFloat(float);
+    method public static int getPolicyFloatArray(float[]);
+    method public static int getPolicyInt(int);
+    method public static int getPolicyIntArray(int[]);
+    method public static int getPolicyLong(long);
+    method public static int getPolicyLongArray(long[]);
+    method public static int getPolicyObjectArray(java.lang.Object[]);
+    method public static int getPolicyRef(java.lang.Object);
+    method public static int getPolicyShort(short);
+    method public static int getPolicyShortArray(short[]);
+    method public static int getPolicySocket(int);
+    method public static int getPolicyString(java.lang.String);
+    method public static void log(java.lang.String);
+    method public static void logPathFromFd(int);
+    method public static void logPeerFromFd(int);
+    method public static void addPolicyBooleanArray(java.lang.Object[], java.lang.String[], java.lang.String[]);
+    method public static void addPolicyByteArray(java.lang.Object[], java.lang.String[], java.lang.String[]);
+    method public static void addPolicyCharArray(java.lang.Object[], java.lang.String[], java.lang.String[]);
+    method public static void addPolicyObjectArray(java.lang.Object[], java.lang.String[], java.lang.String[]);
+    method public static void addPolicySocket(int, java.lang.String[], java.lang.String[]);
+    method public static void addPolicyString(java.lang.String, java.lang.String[], java.lang.String[]);
+
+  }
+
+  public class UserManagementModule {
+    ctor public UserManagementModule();
+    method public static java.lang.String getUserName();
+    method public static int addGroup(java.lang.String);
+    method public static int addUser(java.lang.String, java.lang.String);
+    method public static int addUserToGroup(java.lang.String, java.lang.String);
+    method public static int login(java.lang.String, java.lang.String);
+  }
+
+}
+
 package dalvik.annotation {
 
   public abstract deprecated class TestTarget implements java.lang.annotation.Annotation {
@@ -31374,7 +31445,7 @@ package dalvik.system {
     method public static void log(java.lang.String);
     method public static void logPathFromFd(int);
     method public static void logPeerFromFd(int);
-    field public static final int TAINT_ACCELEROMETER = 256; // 0x100
+    field public static int TAINT_ACCELEROMETER; // 0x100
     field public static final int TAINT_ACCOUNT = 16384; // 0x4000
     field public static final int TAINT_CAMERA = 128; // 0x80
     field public static final int TAINT_CLEAR = 0; // 0x0

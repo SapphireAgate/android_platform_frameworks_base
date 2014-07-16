@@ -2508,9 +2508,18 @@ public final class Parcel {
     }
 
 // begin WITH_TAINT_TRACKING && WITH_TAINT_BYTE_PARCEL
-    //private native void updateTaint(int tag);
-    //private native int getTaint();
-    private native void updateTaint(int tag, int start, int len);
+    private void updateTaint(int tag, int start, int len) {
+		int prevTag = getTaint(start, len);
+		int newTag = dalvik.agate.PolicyManagementModule.mergePolicies(prevTag, tag);		
+		updateTaintImpl(newTag,start,len);
+	}
     private native int getTaint(int start, int len);
+	private native void updateTaintImpl(int tag, int start, int len);
+
+    //private native void updateTaintImpl(int tag, int start, int len);
+    //private int getTaint(int start, int len) {
+	//	return getTaintImpl(start,len);
+	//}
+    //private native int getTaintImpl(int start, int len);
 // end WITH_TAINT_TRACKING && WITH_TAINT_BYTE_PARCEL
 }
