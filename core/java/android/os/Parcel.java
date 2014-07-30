@@ -456,6 +456,7 @@ public final class Parcel {
 
     public final void appendFrom(Parcel parcel, int offset, int length) {
         nativeAppendFrom(mNativePtr, parcel.mNativePtr, offset, length);
+	updateTaint(parcel.getTaint(offset, length),0,length);
     }
 
     /**
