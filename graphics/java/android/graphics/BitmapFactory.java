@@ -28,6 +28,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+// begin WITH_SAPPHIRE_AGATE 
+import dalvik.agate.PolicyManagementModule;
+// end WITH_SAPPHIRE_AGATE 
+
 /**
  * Creates Bitmap objects from various sources, including files, streams,
  * and byte-arrays.
@@ -431,6 +435,10 @@ public class BitmapFactory {
         if (bm == null && opts != null && opts.inBitmap != null) {
             throw new IllegalArgumentException("Problem decoding into existing bitmap");
         }
+// begin WITH_SAPPHIRE_AGATE
+        if (bm != null && data != null)
+            bm.addPolicy(PolicyManagementModule.getPolicyByteArray(data)); 
+// end WITH_SAPPHIRE_AGATE
         return bm;
     }
 

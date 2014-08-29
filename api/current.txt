@@ -8550,6 +8550,7 @@ package android.graphics {
   }
 
   public final class Bitmap implements android.os.Parcelable {
+    method public void addPolicy(int);
     method public boolean compress(android.graphics.Bitmap.CompressFormat, int, java.io.OutputStream);
     method public android.graphics.Bitmap copy(android.graphics.Bitmap.Config, boolean);
     method public void copyPixelsFromBuffer(java.nio.Buffer);
@@ -8576,6 +8577,7 @@ package android.graphics {
     method public byte[] getNinePatchChunk();
     method public int getPixel(int, int);
     method public void getPixels(int[], int, int, int, int, int, int);
+    method public int getPolicy();
     method public final int getRowBytes();
     method public int getScaledHeight(android.graphics.Canvas);
     method public int getScaledHeight(android.util.DisplayMetrics);
@@ -10059,6 +10061,7 @@ package android.hardware {
     method public final void stopSmoothZoom();
     method public final void takePicture(android.hardware.Camera.ShutterCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback);
     method public final void takePicture(android.hardware.Camera.ShutterCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback);
+    method public final void takePictureSecure(android.content.Context, android.hardware.Camera.ShutterCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback);
     method public final void unlock();
     field public static final java.lang.String ACTION_NEW_PICTURE = "android.hardware.action.NEW_PICTURE";
     field public static final java.lang.String ACTION_NEW_VIDEO = "android.hardware.action.NEW_VIDEO";
@@ -31005,18 +31008,25 @@ package com.android.internal.util {
 
 package dalvik.agate {
 
+  public final class AgatePolicy {
+    ctor public AgatePolicy();
+    method public void addPolicy(int);
+    method public void addPolicy(int[], int[]);
+    method public int getPolicy();
+  }
+
   public final class PolicyManagementModule {
     ctor public PolicyManagementModule();
     method public static boolean addPolicyBoolean(boolean, int);
-    method public static void addPolicyBooleanArray(java.lang.Object[], int[], int[]);
+    method public static void addPolicyBooleanArray(boolean[], int[], int[]);
     method public static void addPolicyBooleanArray(boolean[], int);
     method public static byte addPolicyByte(byte, int);
-    method public static void addPolicyByteArray(java.lang.Object[], int[], int[]);
+    method public static void addPolicyByteArray(byte[], int[], int[]);
     method public static void addPolicyByteArray(byte[], int);
+    method public static void addPolicyByteBuffer(java.nio.ByteBuffer, int);
     method public static char addPolicyChar(char, int);
-    method public static void addPolicyCharArray(java.lang.Object[], int[], int[]);
+    method public static void addPolicyCharArray(char[], int[], int[]);
     method public static void addPolicyCharArray(char[], int);
-    method public static void addPolicyDirectByteBuffer(java.nio.ByteBuffer, int);
     method public static double addPolicyDouble(double, int);
     method public static void addPolicyDoubleArray(double[], int);
     method public static void addPolicyFile(int, int);
@@ -31034,13 +31044,14 @@ package dalvik.agate {
     method public static void addPolicyString(java.lang.String, int[], int[]);
     method public static void addPolicyString(java.lang.String, int);
     method public static boolean canFlow(int, int);
+    method public static int getCertificate();
     method public static int getPolicyBoolean(boolean);
     method public static int getPolicyBooleanArray(boolean[]);
     method public static int getPolicyByte(byte);
     method public static int getPolicyByteArray(byte[]);
+    method public static int getPolicyByteBuffer(java.nio.ByteBuffer);
     method public static int getPolicyChar(char);
     method public static int getPolicyCharArray(char[]);
-    method public static int getPolicyDirectByteBuffer(java.nio.ByteBuffer);
     method public static int getPolicyDouble(double);
     method public static int getPolicyDoubleArray(double[]);
     method public static int getPolicyFile(int);
@@ -35363,11 +35374,13 @@ package java.net {
 package java.nio {
 
   public abstract class Buffer {
+    method public abstract void addPolicy(int);
     method public abstract java.lang.Object array();
     method public abstract int arrayOffset();
     method public final int capacity();
     method public final java.nio.Buffer clear();
     method public final java.nio.Buffer flip();
+    method public abstract int getPolicy();
     method public abstract boolean hasArray();
     method public final boolean hasRemaining();
     method public abstract boolean isDirect();
@@ -35391,7 +35404,7 @@ package java.nio {
   }
 
   public abstract class ByteBuffer extends java.nio.Buffer implements java.lang.Comparable {
-    method public void addDirectByteBufferTaint(int);
+    method public void addPolicy(int);
     method public static java.nio.ByteBuffer allocate(int);
     method public static java.nio.ByteBuffer allocateDirect(int);
     method public final byte[] array();
@@ -35412,7 +35425,6 @@ package java.nio {
     method public abstract byte get(int);
     method public abstract char getChar();
     method public abstract char getChar(int);
-    method public int getDirectByteBufferTaint();
     method public abstract double getDouble();
     method public abstract double getDouble(int);
     method public abstract float getFloat();
@@ -35421,6 +35433,7 @@ package java.nio {
     method public abstract int getInt(int);
     method public abstract long getLong();
     method public abstract long getLong(int);
+    method public int getPolicy();
     method public abstract short getShort();
     method public abstract short getShort(int);
     method public final boolean hasArray();
@@ -35456,6 +35469,7 @@ package java.nio {
   }
 
   public abstract class CharBuffer extends java.nio.Buffer implements java.lang.Appendable java.lang.CharSequence java.lang.Comparable java.lang.Readable {
+    method public void addPolicy(int);
     method public static java.nio.CharBuffer allocate(int);
     method public java.nio.CharBuffer append(char);
     method public java.nio.CharBuffer append(java.lang.CharSequence);
@@ -35471,6 +35485,7 @@ package java.nio {
     method public java.nio.CharBuffer get(char[]);
     method public java.nio.CharBuffer get(char[], int, int);
     method public abstract char get(int);
+    method public int getPolicy();
     method public final boolean hasArray();
     method public abstract boolean isDirect();
     method public final int length();

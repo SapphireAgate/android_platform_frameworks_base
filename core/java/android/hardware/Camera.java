@@ -47,6 +47,14 @@ import java.util.concurrent.locks.ReentrantLock;
 import dalvik.system.Taint;
 // end WITH_TAINT_TRACKING
 
+// begin WITH_SAPPHIRE_AGATE
+import dalvik.agate.PolicyManagementModule;
+import dalvik.agate.AgatePolicy;
+import android.app.AlertDialog;
+import java.lang.CharSequence;
+import android.content.DialogInterface;
+// end WITH_SAPPHIRE_AGATE
+
 /**
  * The Camera class is used to set image capture settings, start/stop preview,
  * snap pictures, and retrieve frames for encoding for video.  This class is a
@@ -166,6 +174,10 @@ public class Camera {
     private boolean mWithBuffer;
     private boolean mFaceDetectionRunning = false;
     private Object mAutoFocusCallbackLock = new Object();
+
+// begin WITH_SAPPHIRE_AGATE
+    final private AgatePolicy p = new AgatePolicy(); // tagged int with the current policy
+// end WITH_SAPPHIRE_AGATE
 
     /**
      * Broadcast Action:  A new picture is taken by the camera, and the entry of
@@ -748,6 +760,56 @@ public class Camera {
     private native final void _addCallbackBuffer(
                                 byte[] callbackBuffer, int msgType);
 
+// begin WITH_SAPPHIRE_AGATE
+    /* Create the dialog that allows the user to select the policy on the photo */
+    private final void createPolicyDialog(final Context context, final
+             ShutterCallback shutter, final PictureCallback raw, final PictureCallback jpeg)
+    {
+
+        // Strings to Show In Dialog with Radio Buttons
+        final CharSequence[] items = {"Share with user1","Share with user2", "Share with user1, user2"};
+
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Select the sharing policy for the camera");
+        //builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        //    @Override
+        //    public void onClick(DialogInterface dialog, int which) {}
+        //});
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                int[] readers;
+                switch(item) {
+                    case 0:
+                        readers = new int[2];
+                        readers[0] = 1;
+                        readers[1] = PolicyManagementModule.getCertificate();
+                        p.addPolicy(readers, null);
+                        takePicture(shutter, raw, null, jpeg);
+                        break;
+                    case 1:
+                        readers = new int[1];
+                        readers[0] = 2;
+                        readers[1] = PolicyManagementModule.getCertificate();
+                        p.addPolicy(readers, null);
+                        takePicture(shutter, raw, null, jpeg); 
+                        break;
+                    case 2:
+                        readers = new int[2];
+                        readers[0] = 1;
+                        readers[1] = 2;
+                        readers[2] = PolicyManagementModule.getCertificate();
+                        p.addPolicy(readers, null);
+                        takePicture(shutter, raw, null, jpeg); 
+                        break;
+                }
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+// end WITH_SAPPHIRE_AGATE
+
     private class EventHandler extends Handler
     {
         private Camera mCamera;
@@ -782,7 +844,9 @@ public class Camera {
 // begin WITH_TAINT_TRACKING
                     //mJpegCallback.onPictureTaken((byte[])msg.obj, mCamera);
                     byte[] data = (byte[])msg.obj;
-                    Taint.addTaintByteArray(data, Taint.TAINT_CAMERA);
+                    //Taint.addTaintByteArray(data, Taint.TAINT_CAMERA);
+                    //createPolicyDialog();
+                    PolicyManagementModule.addPolicyByteArray(data, p.getPolicy());
                     mJpegCallback.onPictureTaken(data, mCamera);
 // end WITH_TAINT_TRACKING
                 }
@@ -1058,6 +1122,14 @@ public class Camera {
          */
         void onPictureTaken(byte[] data, Camera camera);
     };
+
+// begin WITH_SAPPHIRE_AGATE
+    public final void takePictureSecure(Context context, ShutterCallback shutter, PictureCallback raw,
+            PictureCallback jpeg) {
+        createPolicyDialog(context, shutter, raw, jpeg);
+        //takePicture(shutter, raw, null, jpeg); 
+    }
+// end WITH_SAPPHIRE_AGATE
 
     /**
      * Equivalent to takePicture(shutter, raw, null, jpeg).

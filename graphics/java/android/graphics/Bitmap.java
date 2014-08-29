@@ -26,6 +26,10 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+// begin WITH_SAPPHIRE_AGATE
+import dalvik.agate.PolicyManagementModule;
+// end WITH_SAPPHIRE_AGATE
+
 public final class Bitmap implements Parcelable {
     /**
      * Indicates that the bitmap was created for an unknown pixel density.
@@ -391,6 +395,9 @@ public final class Bitmap implements Parcelable {
         int position = dst.position();
         position += pixelSize >> shift;
         dst.position(position);
+// start WITH_SAPPHIRE_AGATE
+        dst.addPolicy(getPolicy());
+// end WITH_SAPPHIRE_AGATE
     }
 
     /**
@@ -625,6 +632,11 @@ public final class Bitmap implements Parcelable {
         canvas.drawBitmap(source, srcR, dstR, paint);
         canvas.setBitmap(null);
 
+// start WITH_SAPPHIRE_AGATE
+        // TODO: more thoroughly - what if Matrix is tainted?
+        bitmap.addPolicy(source.getPolicy());
+// end WITH_SAPPHIRE_AGATE
+
         return bitmap;
     }
 
@@ -817,6 +829,20 @@ public final class Bitmap implements Parcelable {
             int width, int height, Config config) {
         return createBitmap(display, colors, 0, width, width, height, config);
     }
+
+// begin WITH_SAPPHIRE_AGATE 
+    /* Set policies on the newly created Bitmap (set on all fields derived
+     * from data, offset or length, or Options...)
+     * TODO: more thoroughly
+     */
+    public void addPolicy(int tag) {
+        PolicyManagementModule.addPolicyByteArray(mBuffer, tag); 
+    }
+
+    public int getPolicy() {
+        return PolicyManagementModule.getPolicyByteArray(mBuffer); 
+    }
+// end WITH_SAPPHIRE_AGATE 
 
     /**
      * Returns an optional array of private data, used by the UI system for
