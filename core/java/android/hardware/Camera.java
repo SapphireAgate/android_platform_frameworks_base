@@ -49,6 +49,7 @@ import dalvik.system.Taint;
 
 // begin WITH_SAPPHIRE_AGATE
 import dalvik.agate.PolicyManagementModule;
+import dalvik.agate.UserManagementModule;
 import dalvik.agate.AgatePolicy;
 import android.app.AlertDialog;
 import java.lang.CharSequence;
@@ -763,46 +764,78 @@ public class Camera {
 // begin WITH_SAPPHIRE_AGATE
     /* Create the dialog that allows the user to select the policy on the photo */
     private final void createPolicyDialog(final Context context, final
-             ShutterCallback shutter, final PictureCallback raw, final PictureCallback jpeg)
+             ShutterCallback shutter, final PictureCallback raw, final PictureCallback jpeg, String[] user_readers, String[] group_readers)
     {
+        final String[] u_r = user_readers;
+        final String[] g_r = group_readers;
 
-        // Strings to Show In Dialog with Radio Buttons
-        final CharSequence[] items = {"Share with user1","Share with user2", "Share with user1, user2"};
+        // TODO: for now just one policy
+        String s = "";
+        if (user_readers != null) {
+            s += "Share with users:";
+            for (String user: user_readers) {
+                s += " " + user;
+            }
+            s += ";";
+            if (group_readers != null)
+                s += " and groups:";
+            for (String group: group_readers) {
+                s += " " + group;
+            }
+        } else {
+            s += "Share with groups:";
+            for (String group: group_readers) {
+                s += " " + group;
+            }
+            s += ";";
+        }
+        CharSequence[] items = new CharSequence[1];
+        items[0] = s;
 
         // Creating and Building the Dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Select the sharing policy for the camera");
+        builder.setTitle("Select the sharing policy for the camera input:");
         //builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
         //    @Override
         //    public void onClick(DialogInterface dialog, int which) {}
         //});
+        builder.setNeutralButton("Customize", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+
         builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                int[] readers;
-                switch(item) {
-                    case 0:
-                        readers = new int[2];
-                        readers[0] = 1;
-                        readers[1] = PolicyManagementModule.getCertificate();
-                        p.addPolicy(readers, null);
-                        takePicture(shutter, raw, null, jpeg);
-                        break;
-                    case 1:
-                        readers = new int[1];
-                        readers[0] = 2;
-                        readers[1] = PolicyManagementModule.getCertificate();
-                        p.addPolicy(readers, null);
-                        takePicture(shutter, raw, null, jpeg); 
-                        break;
-                    case 2:
-                        readers = new int[2];
-                        readers[0] = 1;
-                        readers[1] = 2;
-                        readers[2] = PolicyManagementModule.getCertificate();
-                        p.addPolicy(readers, null);
-                        takePicture(shutter, raw, null, jpeg); 
-                        break;
-                }
+                int[] readers = new int[1];
+                readers[0] = UserManagementModule.getUserID();
+                //switch(item) {
+                //    case 0:
+                //        readers = new int[2];
+                //        readers[0] = 1;
+                //        readers[1] = PolicyManagementModule.getCertificate();
+                //        p.addPolicy(readers, null);
+                //        takePicture(shutter, raw, null, jpeg);
+                //        break;
+                //    case 1:
+                //        readers = new int[1];
+                //        readers[0] = 2;
+                //        readers[1] = PolicyManagementModule.getCertificate();
+                //        p.addPolicy(readers, null);
+                //        takePicture(shutter, raw, null, jpeg); 
+                //        break;
+                //    case 2:
+                //        readers = new int[2];
+                //        readers[0] = 1;
+                //        readers[1] = 2;
+                //        readers[2] = PolicyManagementModule.getCertificate();
+                //        p.addPolicy(readers, null);
+                //        takePicture(shutter, raw, null, jpeg); 
+                //        break;
+                //}
+                p.addPolicy(u_r, g_r);
+                p.addPolicy(readers, null);
+                PolicyManagementModule.printPolicy(p.getPolicy());
+                takePicture(shutter, raw, null, jpeg);
                 dialog.dismiss();
             }
         });
@@ -1125,8 +1158,8 @@ public class Camera {
 
 // begin WITH_SAPPHIRE_AGATE
     public final void takePictureSecure(Context context, ShutterCallback shutter, PictureCallback raw,
-            PictureCallback jpeg) {
-        createPolicyDialog(context, shutter, raw, jpeg);
+            PictureCallback jpeg, String[] user_readers, String[] group_readers) {
+        createPolicyDialog(context, shutter, raw, jpeg, user_readers, group_readers);
         //takePicture(shutter, raw, null, jpeg); 
     }
 // end WITH_SAPPHIRE_AGATE
