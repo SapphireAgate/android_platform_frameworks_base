@@ -10061,7 +10061,7 @@ package android.hardware {
     method public final void stopSmoothZoom();
     method public final void takePicture(android.hardware.Camera.ShutterCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback);
     method public final void takePicture(android.hardware.Camera.ShutterCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback);
-    method public final void takePictureSecure(android.content.Context, android.hardware.Camera.ShutterCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback);
+    method public final void takePictureSecure(android.content.Context, android.hardware.Camera.ShutterCallback, android.hardware.Camera.PictureCallback, android.hardware.Camera.PictureCallback, java.lang.String[], java.lang.String[]);
     method public final void unlock();
     field public static final java.lang.String ACTION_NEW_PICTURE = "android.hardware.action.NEW_PICTURE";
     field public static final java.lang.String ACTION_NEW_VIDEO = "android.hardware.action.NEW_VIDEO";
@@ -31011,6 +31011,7 @@ package dalvik.agate {
   public final class AgatePolicy {
     ctor public AgatePolicy();
     method public void addPolicy(int);
+    method public void addPolicy(java.lang.String[], java.lang.String[]);
     method public void addPolicy(int[], int[]);
     method public int getPolicy();
   }
@@ -31022,6 +31023,7 @@ package dalvik.agate {
     method public static void addPolicyBooleanArray(boolean[], int);
     method public static byte addPolicyByte(byte, int);
     method public static void addPolicyByteArray(byte[], int[], int[]);
+    method public static void addPolicyByteArray(byte[], java.lang.String[], java.lang.String[]);
     method public static void addPolicyByteArray(byte[], int);
     method public static void addPolicyByteBuffer(java.nio.ByteBuffer, int);
     method public static char addPolicyChar(char, int);
@@ -31042,6 +31044,7 @@ package dalvik.agate {
     method public static void addPolicyShortArray(short[], int);
     method public static void addPolicySocket(int, int[], int[]);
     method public static void addPolicyString(java.lang.String, int[], int[]);
+    method public static void addPolicyString(java.lang.String, java.lang.String[], java.lang.String[]);
     method public static void addPolicyString(java.lang.String, int);
     method public static boolean canFlow(int, int);
     method public static int getCertificate();
@@ -31071,6 +31074,7 @@ package dalvik.agate {
     method public static void logPathFromFd(int);
     method public static void logPeerFromFd(int);
     method public static int mergePolicies(int, int);
+    method public static void printPolicy(int);
   }
 
   public class UserManagementModule {
@@ -31078,6 +31082,7 @@ package dalvik.agate {
     method public static int addGroup(java.lang.String);
     method public static int addUser(java.lang.String, java.lang.String);
     method public static int addUserToGroup(java.lang.String, java.lang.String);
+    method public static int getUserID();
     method public static java.lang.String getUserName();
     method public static int login(java.lang.String, java.lang.String);
   }
@@ -36107,6 +36112,474 @@ package java.nio.charset.spi {
     ctor protected CharsetProvider();
     method public abstract java.nio.charset.Charset charsetForName(java.lang.String);
     method public abstract java.util.Iterator<java.nio.charset.Charset> charsets();
+  }
+
+}
+
+package java.rmi {
+
+  public class AccessException extends java.rmi.RemoteException {
+    ctor public AccessException(java.lang.String, java.lang.Exception);
+    ctor public AccessException(java.lang.String);
+  }
+
+  public class AlreadyBoundException extends java.lang.Exception {
+    ctor public AlreadyBoundException(java.lang.String);
+    ctor public AlreadyBoundException();
+  }
+
+  public class ConnectException extends java.rmi.RemoteException {
+    ctor public ConnectException(java.lang.String, java.lang.Exception);
+    ctor public ConnectException(java.lang.String);
+  }
+
+  public class ConnectIOException extends java.rmi.RemoteException {
+    ctor public ConnectIOException(java.lang.String, java.lang.Exception);
+    ctor public ConnectIOException(java.lang.String);
+  }
+
+  public class MarshalException extends java.rmi.RemoteException {
+    ctor public MarshalException(java.lang.String, java.lang.Exception);
+    ctor public MarshalException(java.lang.String);
+  }
+
+  public final class MarshalledObject implements java.io.Serializable {
+    ctor public MarshalledObject(java.lang.Object) throws java.io.IOException;
+    method public java.lang.Object get() throws java.lang.ClassNotFoundException, java.io.IOException;
+  }
+
+  public final class Naming {
+    method public static void bind(java.lang.String, java.rmi.Remote) throws java.rmi.AlreadyBoundException, java.net.MalformedURLException, java.rmi.RemoteException;
+    method public static java.lang.String[] list(java.lang.String) throws java.net.MalformedURLException, java.rmi.RemoteException;
+    method public static java.rmi.Remote lookup(java.lang.String) throws java.net.MalformedURLException, java.rmi.NotBoundException, java.rmi.RemoteException;
+    method public static void rebind(java.lang.String, java.rmi.Remote) throws java.net.MalformedURLException, java.rmi.RemoteException;
+    method public static void unbind(java.lang.String) throws java.net.MalformedURLException, java.rmi.NotBoundException, java.rmi.RemoteException;
+  }
+
+  public class NoSuchObjectException extends java.rmi.RemoteException {
+    ctor public NoSuchObjectException(java.lang.String);
+  }
+
+  public class NotBoundException extends java.lang.Exception {
+    ctor public NotBoundException(java.lang.String);
+    ctor public NotBoundException();
+  }
+
+  public deprecated class RMISecurityException extends java.lang.SecurityException {
+    ctor public RMISecurityException(java.lang.String, java.lang.String);
+    ctor public RMISecurityException(java.lang.String);
+  }
+
+  public class RMISecurityManager extends java.lang.SecurityManager {
+    ctor public RMISecurityManager();
+  }
+
+  public abstract interface Remote {
+  }
+
+  public class RemoteException extends java.io.IOException {
+    ctor public RemoteException(java.lang.String, java.lang.Throwable);
+    ctor public RemoteException(java.lang.String);
+    ctor public RemoteException();
+    field public java.lang.Throwable detail;
+  }
+
+  public class ServerError extends java.rmi.RemoteException {
+    ctor public ServerError(java.lang.String, java.lang.Error);
+  }
+
+  public class ServerException extends java.rmi.RemoteException {
+    ctor public ServerException(java.lang.String, java.lang.Exception);
+    ctor public ServerException(java.lang.String);
+  }
+
+  public deprecated class ServerRuntimeException extends java.rmi.RemoteException {
+    ctor public ServerRuntimeException(java.lang.String, java.lang.Exception);
+  }
+
+  public class StubNotFoundException extends java.rmi.RemoteException {
+    ctor public StubNotFoundException(java.lang.String, java.lang.Exception);
+    ctor public StubNotFoundException(java.lang.String);
+  }
+
+  public class UnexpectedException extends java.rmi.RemoteException {
+    ctor public UnexpectedException(java.lang.String, java.lang.Exception);
+    ctor public UnexpectedException(java.lang.String);
+  }
+
+  public class UnknownHostException extends java.rmi.RemoteException {
+    ctor public UnknownHostException(java.lang.String, java.lang.Exception);
+    ctor public UnknownHostException(java.lang.String);
+  }
+
+  public class UnmarshalException extends java.rmi.RemoteException {
+    ctor public UnmarshalException(java.lang.String, java.lang.Exception);
+    ctor public UnmarshalException(java.lang.String);
+  }
+
+}
+
+package java.rmi.activation {
+
+  public abstract class Activatable extends java.rmi.server.RemoteServer {
+    ctor protected Activatable(java.lang.String, java.rmi.MarshalledObject, boolean, int) throws java.rmi.activation.ActivationException, java.rmi.RemoteException;
+    ctor protected Activatable(java.lang.String, java.rmi.MarshalledObject, boolean, int, java.rmi.server.RMIClientSocketFactory, java.rmi.server.RMIServerSocketFactory) throws java.rmi.activation.ActivationException, java.rmi.RemoteException;
+    ctor protected Activatable(java.rmi.activation.ActivationID, int) throws java.rmi.RemoteException;
+    ctor protected Activatable(java.rmi.activation.ActivationID, int, java.rmi.server.RMIClientSocketFactory, java.rmi.server.RMIServerSocketFactory) throws java.rmi.RemoteException;
+    method public static java.rmi.activation.ActivationID exportObject(java.rmi.Remote, java.lang.String, java.rmi.MarshalledObject, boolean, int, java.rmi.server.RMIClientSocketFactory, java.rmi.server.RMIServerSocketFactory) throws java.rmi.activation.ActivationException, java.rmi.RemoteException;
+    method public static java.rmi.Remote exportObject(java.rmi.Remote, java.rmi.activation.ActivationID, int, java.rmi.server.RMIClientSocketFactory, java.rmi.server.RMIServerSocketFactory) throws java.rmi.RemoteException;
+    method public static java.rmi.activation.ActivationID exportObject(java.rmi.Remote, java.lang.String, java.rmi.MarshalledObject, boolean, int) throws java.rmi.activation.ActivationException, java.rmi.RemoteException;
+    method public static java.rmi.Remote exportObject(java.rmi.Remote, java.rmi.activation.ActivationID, int) throws java.rmi.RemoteException;
+    method protected java.rmi.activation.ActivationID getID();
+    method public static boolean inactive(java.rmi.activation.ActivationID) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+    method public static java.rmi.Remote register(java.rmi.activation.ActivationDesc) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public static boolean unexportObject(java.rmi.Remote, boolean) throws java.rmi.NoSuchObjectException;
+    method public static void unregister(java.rmi.activation.ActivationID) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+  }
+
+  public class ActivateFailedException extends java.rmi.RemoteException {
+    ctor public ActivateFailedException(java.lang.String, java.lang.Exception);
+    ctor public ActivateFailedException(java.lang.String);
+  }
+
+  public final class ActivationDesc implements java.io.Serializable {
+    ctor public ActivationDesc(java.lang.String, java.lang.String, java.rmi.MarshalledObject) throws java.rmi.activation.ActivationException;
+    ctor public ActivationDesc(java.lang.String, java.lang.String, java.rmi.MarshalledObject, boolean) throws java.rmi.activation.ActivationException;
+    ctor public ActivationDesc(java.rmi.activation.ActivationGroupID, java.lang.String, java.lang.String, java.rmi.MarshalledObject);
+    ctor public ActivationDesc(java.rmi.activation.ActivationGroupID, java.lang.String, java.lang.String, java.rmi.MarshalledObject, boolean);
+    method public java.lang.String getClassName();
+    method public java.rmi.MarshalledObject getData();
+    method public java.rmi.activation.ActivationGroupID getGroupID();
+    method public java.lang.String getLocation();
+    method public boolean getRestartMode();
+  }
+
+  public class ActivationException extends java.lang.Exception {
+    ctor public ActivationException(java.lang.String, java.lang.Throwable);
+    ctor public ActivationException(java.lang.String);
+    ctor public ActivationException();
+    field public java.lang.Throwable detail;
+  }
+
+  public abstract class ActivationGroup extends java.rmi.server.UnicastRemoteObject implements java.rmi.activation.ActivationInstantiator {
+    ctor protected ActivationGroup(java.rmi.activation.ActivationGroupID) throws java.rmi.RemoteException;
+    method protected void activeObject(java.rmi.activation.ActivationID, java.rmi.MarshalledObject) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+    method public abstract void activeObject(java.rmi.activation.ActivationID, java.rmi.Remote) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+    method public static synchronized java.rmi.activation.ActivationGroup createGroup(java.rmi.activation.ActivationGroupID, java.rmi.activation.ActivationGroupDesc, long) throws java.rmi.activation.ActivationException;
+    method public static synchronized java.rmi.activation.ActivationGroupID currentGroupID();
+    method public static synchronized java.rmi.activation.ActivationSystem getSystem() throws java.rmi.activation.ActivationException;
+    method protected void inactiveGroup() throws java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public boolean inactiveObject(java.rmi.activation.ActivationID) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+    method public static synchronized void setSystem(java.rmi.activation.ActivationSystem) throws java.rmi.activation.ActivationException;
+  }
+
+  public final class ActivationGroupDesc implements java.io.Serializable {
+    ctor public ActivationGroupDesc(java.util.Properties, java.rmi.activation.ActivationGroupDesc.CommandEnvironment);
+    ctor public ActivationGroupDesc(java.lang.String, java.lang.String, java.rmi.MarshalledObject, java.util.Properties, java.rmi.activation.ActivationGroupDesc.CommandEnvironment);
+    method public java.lang.String getClassName();
+    method public java.rmi.activation.ActivationGroupDesc.CommandEnvironment getCommandEnvironment();
+    method public java.rmi.MarshalledObject getData();
+    method public java.lang.String getLocation();
+    method public java.util.Properties getPropertyOverrides();
+  }
+
+  public static class ActivationGroupDesc.CommandEnvironment implements java.io.Serializable {
+    ctor public ActivationGroupDesc.CommandEnvironment(java.lang.String, java.lang.String[]);
+    method public java.lang.String[] getCommandOptions();
+    method public java.lang.String getCommandPath();
+  }
+
+  public class ActivationGroupID implements java.io.Serializable {
+    ctor public ActivationGroupID(java.rmi.activation.ActivationSystem);
+    method public java.rmi.activation.ActivationSystem getSystem();
+  }
+
+  public final class ActivationGroup_Stub extends java.rmi.server.RemoteStub implements java.rmi.activation.ActivationInstantiator java.rmi.Remote {
+    ctor public ActivationGroup_Stub(java.rmi.server.RemoteRef);
+    method public java.rmi.MarshalledObject newInstance(java.rmi.activation.ActivationID, java.rmi.activation.ActivationDesc) throws java.rmi.activation.ActivationException, java.rmi.RemoteException;
+  }
+
+  public class ActivationID implements java.io.Serializable {
+    ctor public ActivationID(java.rmi.activation.Activator);
+    method public java.rmi.Remote activate(boolean) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+  }
+
+  public abstract interface ActivationInstantiator implements java.rmi.Remote {
+    method public abstract java.rmi.MarshalledObject newInstance(java.rmi.activation.ActivationID, java.rmi.activation.ActivationDesc) throws java.rmi.activation.ActivationException, java.rmi.RemoteException;
+  }
+
+  public abstract interface ActivationMonitor implements java.rmi.Remote {
+    method public abstract void activeObject(java.rmi.activation.ActivationID, java.rmi.MarshalledObject) throws java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+    method public abstract void inactiveGroup(java.rmi.activation.ActivationGroupID, long) throws java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public abstract void inactiveObject(java.rmi.activation.ActivationID) throws java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+  }
+
+  public abstract interface ActivationSystem implements java.rmi.Remote {
+    method public abstract java.rmi.activation.ActivationMonitor activeGroup(java.rmi.activation.ActivationGroupID, java.rmi.activation.ActivationInstantiator, long) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public abstract java.rmi.activation.ActivationDesc getActivationDesc(java.rmi.activation.ActivationID) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+    method public abstract java.rmi.activation.ActivationGroupDesc getActivationGroupDesc(java.rmi.activation.ActivationGroupID) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public abstract java.rmi.activation.ActivationGroupID registerGroup(java.rmi.activation.ActivationGroupDesc) throws java.rmi.activation.ActivationException, java.rmi.RemoteException;
+    method public abstract java.rmi.activation.ActivationID registerObject(java.rmi.activation.ActivationDesc) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public abstract java.rmi.activation.ActivationDesc setActivationDesc(java.rmi.activation.ActivationID, java.rmi.activation.ActivationDesc) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownGroupException, java.rmi.activation.UnknownObjectException;
+    method public abstract java.rmi.activation.ActivationGroupDesc setActivationGroupDesc(java.rmi.activation.ActivationGroupID, java.rmi.activation.ActivationGroupDesc) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public abstract void shutdown() throws java.rmi.RemoteException;
+    method public abstract void unregisterGroup(java.rmi.activation.ActivationGroupID) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownGroupException;
+    method public abstract void unregisterObject(java.rmi.activation.ActivationID) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+    field public static final int SYSTEM_PORT = 1098; // 0x44a
+  }
+
+  public abstract interface Activator implements java.rmi.Remote {
+    method public abstract java.rmi.MarshalledObject activate(java.rmi.activation.ActivationID, boolean) throws java.rmi.activation.ActivationException, java.rmi.RemoteException, java.rmi.activation.UnknownObjectException;
+  }
+
+  public class UnknownGroupException extends java.rmi.activation.ActivationException {
+    ctor public UnknownGroupException(java.lang.String);
+  }
+
+  public class UnknownObjectException extends java.rmi.activation.ActivationException {
+    ctor public UnknownObjectException(java.lang.String);
+  }
+
+}
+
+package java.rmi.dgc {
+
+  public abstract interface DGC implements java.rmi.Remote {
+    method public abstract void clean(java.rmi.server.ObjID[], long, java.rmi.dgc.VMID, boolean) throws java.rmi.RemoteException;
+    method public abstract java.rmi.dgc.Lease dirty(java.rmi.server.ObjID[], long, java.rmi.dgc.Lease) throws java.rmi.RemoteException;
+  }
+
+  public final class Lease implements java.io.Serializable {
+    ctor public Lease(java.rmi.dgc.VMID, long);
+    method public java.rmi.dgc.VMID getVMID();
+    method public long getValue();
+  }
+
+  public final class VMID implements java.io.Serializable {
+    ctor public VMID();
+    method public static deprecated boolean isUnique();
+  }
+
+}
+
+package java.rmi.registry {
+
+  public final class LocateRegistry {
+    method public static java.rmi.registry.Registry createRegistry(int, java.rmi.server.RMIClientSocketFactory, java.rmi.server.RMIServerSocketFactory) throws java.rmi.RemoteException;
+    method public static java.rmi.registry.Registry createRegistry(int) throws java.rmi.RemoteException;
+    method public static java.rmi.registry.Registry getRegistry(java.lang.String, int, java.rmi.server.RMIClientSocketFactory) throws java.rmi.RemoteException;
+    method public static java.rmi.registry.Registry getRegistry(java.lang.String, int) throws java.rmi.RemoteException;
+    method public static java.rmi.registry.Registry getRegistry(java.lang.String) throws java.rmi.RemoteException;
+    method public static java.rmi.registry.Registry getRegistry(int) throws java.rmi.RemoteException;
+    method public static java.rmi.registry.Registry getRegistry() throws java.rmi.RemoteException;
+  }
+
+  public abstract interface Registry implements java.rmi.Remote {
+    method public abstract void bind(java.lang.String, java.rmi.Remote) throws java.rmi.AccessException, java.rmi.AlreadyBoundException, java.rmi.RemoteException;
+    method public abstract java.lang.String[] list() throws java.rmi.AccessException, java.rmi.RemoteException;
+    method public abstract java.rmi.Remote lookup(java.lang.String) throws java.rmi.AccessException, java.rmi.NotBoundException, java.rmi.RemoteException;
+    method public abstract void rebind(java.lang.String, java.rmi.Remote) throws java.rmi.AccessException, java.rmi.RemoteException;
+    method public abstract void unbind(java.lang.String) throws java.rmi.AccessException, java.rmi.NotBoundException, java.rmi.RemoteException;
+    field public static final int REGISTRY_PORT = 1099; // 0x44b
+  }
+
+  public abstract deprecated interface RegistryHandler {
+    method public abstract deprecated java.rmi.registry.Registry registryImpl(int) throws java.rmi.RemoteException;
+    method public abstract deprecated java.rmi.registry.Registry registryStub(java.lang.String, int) throws java.rmi.RemoteException, java.rmi.UnknownHostException;
+  }
+
+}
+
+package java.rmi.server {
+
+  public class ExportException extends java.rmi.RemoteException {
+    ctor public ExportException(java.lang.String, java.lang.Exception);
+    ctor public ExportException(java.lang.String);
+  }
+
+  public abstract deprecated interface LoaderHandler {
+    method public abstract deprecated java.lang.Object getSecurityContext(java.lang.ClassLoader);
+    method public abstract deprecated java.lang.Class<?> loadClass(java.net.URL, java.lang.String) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+    method public abstract deprecated java.lang.Class<?> loadClass(java.lang.String) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+    field public static final deprecated java.lang.String packagePrefix = "org.apache.harmony.rmi";
+  }
+
+  public deprecated class LogStream extends java.io.PrintStream {
+    method public static deprecated synchronized java.io.PrintStream getDefaultStream();
+    method public deprecated synchronized java.io.OutputStream getOutputStream();
+    method public static deprecated java.rmi.server.LogStream log(java.lang.String);
+    method public static deprecated int parseLevel(java.lang.String);
+    method public static deprecated synchronized void setDefaultStream(java.io.PrintStream);
+    method public deprecated synchronized void setOutputStream(java.io.OutputStream);
+    field public static final deprecated int BRIEF = 10; // 0xa
+    field public static final deprecated int SILENT = 0; // 0x0
+    field public static final deprecated int VERBOSE = 20; // 0x14
+  }
+
+  public final class ObjID implements java.io.Serializable {
+    ctor public ObjID(int);
+    ctor public ObjID();
+    method public static java.rmi.server.ObjID read(java.io.ObjectInput) throws java.io.IOException;
+    method public void write(java.io.ObjectOutput) throws java.io.IOException;
+    field public static final int ACTIVATOR_ID = 1; // 0x1
+    field public static final int DGC_ID = 2; // 0x2
+    field public static final int REGISTRY_ID = 0; // 0x0
+  }
+
+  public deprecated class Operation {
+    ctor public deprecated Operation(java.lang.String);
+    method public deprecated java.lang.String getOperation();
+  }
+
+  public class RMIClassLoader {
+    method public static java.lang.String getClassAnnotation(java.lang.Class<?>);
+    method public static java.lang.ClassLoader getClassLoader(java.lang.String) throws java.net.MalformedURLException, java.lang.SecurityException;
+    method public static java.rmi.server.RMIClassLoaderSpi getDefaultProviderInstance();
+    method public static deprecated java.lang.Object getSecurityContext(java.lang.ClassLoader);
+    method public static java.lang.Class<?> loadClass(java.lang.String, java.lang.String, java.lang.ClassLoader) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+    method public static java.lang.Class<?> loadClass(java.net.URL, java.lang.String) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+    method public static java.lang.Class<?> loadClass(java.lang.String, java.lang.String) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+    method public static deprecated java.lang.Class<?> loadClass(java.lang.String) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+    method public static java.lang.Class<?> loadProxyClass(java.lang.String, java.lang.String[], java.lang.ClassLoader) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+  }
+
+  public abstract class RMIClassLoaderSpi {
+    ctor public RMIClassLoaderSpi();
+    method public abstract java.lang.String getClassAnnotation(java.lang.Class<?>);
+    method public abstract java.lang.ClassLoader getClassLoader(java.lang.String) throws java.net.MalformedURLException;
+    method public abstract java.lang.Class<?> loadClass(java.lang.String, java.lang.String, java.lang.ClassLoader) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+    method public abstract java.lang.Class<?> loadProxyClass(java.lang.String, java.lang.String[], java.lang.ClassLoader) throws java.lang.ClassNotFoundException, java.net.MalformedURLException;
+  }
+
+  public abstract interface RMIClientSocketFactory {
+    method public abstract java.net.Socket createSocket(java.lang.String, int) throws java.io.IOException;
+  }
+
+  public abstract interface RMIFailureHandler {
+    method public abstract boolean failure(java.lang.Exception);
+  }
+
+  public abstract interface RMIServerSocketFactory {
+    method public abstract java.net.ServerSocket createServerSocket(int) throws java.io.IOException;
+  }
+
+  public abstract class RMISocketFactory implements java.rmi.server.RMIClientSocketFactory java.rmi.server.RMIServerSocketFactory {
+    ctor public RMISocketFactory();
+    method public abstract java.net.ServerSocket createServerSocket(int) throws java.io.IOException;
+    method public abstract java.net.Socket createSocket(java.lang.String, int) throws java.io.IOException;
+    method public static synchronized java.rmi.server.RMISocketFactory getDefaultSocketFactory();
+    method public static synchronized java.rmi.server.RMIFailureHandler getFailureHandler();
+    method public static synchronized java.rmi.server.RMISocketFactory getSocketFactory();
+    method public static synchronized void setFailureHandler(java.rmi.server.RMIFailureHandler) throws java.lang.SecurityException;
+    method public static synchronized void setSocketFactory(java.rmi.server.RMISocketFactory) throws java.io.IOException, java.lang.SecurityException;
+  }
+
+  public abstract deprecated interface RemoteCall {
+    method public abstract deprecated void done() throws java.io.IOException;
+    method public abstract deprecated void executeCall() throws java.lang.Exception;
+    method public abstract deprecated java.io.ObjectInput getInputStream() throws java.io.IOException;
+    method public abstract deprecated java.io.ObjectOutput getOutputStream() throws java.io.IOException;
+    method public abstract deprecated java.io.ObjectOutput getResultStream(boolean) throws java.io.IOException, java.io.StreamCorruptedException;
+    method public abstract deprecated void releaseInputStream() throws java.io.IOException;
+    method public abstract deprecated void releaseOutputStream() throws java.io.IOException;
+  }
+
+  public abstract class RemoteObject implements java.rmi.Remote java.io.Serializable {
+    ctor protected RemoteObject();
+    ctor protected RemoteObject(java.rmi.server.RemoteRef);
+    method public java.rmi.server.RemoteRef getRef();
+    method public static java.rmi.Remote toStub(java.rmi.Remote) throws java.rmi.NoSuchObjectException;
+    field protected transient java.rmi.server.RemoteRef ref;
+  }
+
+  public class RemoteObjectInvocationHandler extends java.rmi.server.RemoteObject implements java.lang.reflect.InvocationHandler {
+    ctor public RemoteObjectInvocationHandler(java.rmi.server.RemoteRef);
+    method public java.lang.Object invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[]) throws java.lang.Throwable;
+  }
+
+  public abstract interface RemoteRef implements java.io.Externalizable {
+    method public abstract deprecated void done(java.rmi.server.RemoteCall) throws java.rmi.RemoteException;
+    method public abstract java.lang.String getRefClass(java.io.ObjectOutput);
+    method public abstract java.lang.Object invoke(java.rmi.Remote, java.lang.reflect.Method, java.lang.Object[], long) throws java.lang.Exception;
+    method public abstract deprecated void invoke(java.rmi.server.RemoteCall) throws java.lang.Exception;
+    method public abstract deprecated java.rmi.server.RemoteCall newCall(java.rmi.server.RemoteObject, java.rmi.server.Operation[], int, long) throws java.rmi.RemoteException;
+    method public abstract boolean remoteEquals(java.rmi.server.RemoteRef);
+    method public abstract int remoteHashCode();
+    method public abstract java.lang.String remoteToString();
+    field public static final java.lang.String packagePrefix = "org.apache.harmony.rmi.remoteref";
+    field public static final long serialVersionUID = 3632638527362204081L; // 0x3269b97e7cd281b1L
+  }
+
+  public abstract class RemoteServer extends java.rmi.server.RemoteObject {
+    ctor protected RemoteServer(java.rmi.server.RemoteRef);
+    ctor protected RemoteServer();
+    method public static java.lang.String getClientHost() throws java.rmi.server.ServerNotActiveException;
+    method public static java.io.PrintStream getLog();
+    method public static void setLog(java.io.OutputStream);
+  }
+
+  public abstract class RemoteStub extends java.rmi.server.RemoteObject {
+    ctor protected RemoteStub(java.rmi.server.RemoteRef);
+    ctor protected RemoteStub();
+    method protected static deprecated void setRef(java.rmi.server.RemoteStub, java.rmi.server.RemoteRef);
+  }
+
+  public class ServerCloneException extends java.lang.CloneNotSupportedException {
+    ctor public ServerCloneException(java.lang.String, java.lang.Exception);
+    ctor public ServerCloneException(java.lang.String);
+    field public java.lang.Exception detail;
+  }
+
+  public class ServerNotActiveException extends java.lang.Exception {
+    ctor public ServerNotActiveException(java.lang.String);
+    ctor public ServerNotActiveException();
+  }
+
+  public abstract interface ServerRef implements java.rmi.server.RemoteRef {
+    method public abstract java.rmi.server.RemoteStub exportObject(java.rmi.Remote, java.lang.Object) throws java.rmi.RemoteException;
+    method public abstract java.lang.String getClientHost() throws java.rmi.server.ServerNotActiveException;
+    field public static final long serialVersionUID = -4557750989390278438L; // 0xc0bf9d9f86b510daL
+  }
+
+  public abstract deprecated interface Skeleton {
+    method public abstract deprecated void dispatch(java.rmi.Remote, java.rmi.server.RemoteCall, int, long) throws java.lang.Exception;
+    method public abstract deprecated java.rmi.server.Operation[] getOperations();
+  }
+
+  public deprecated class SkeletonMismatchException extends java.rmi.RemoteException {
+    ctor public deprecated SkeletonMismatchException(java.lang.String);
+  }
+
+  public deprecated class SkeletonNotFoundException extends java.rmi.RemoteException {
+    ctor public deprecated SkeletonNotFoundException(java.lang.String, java.lang.Exception);
+    ctor public deprecated SkeletonNotFoundException(java.lang.String);
+  }
+
+  public class SocketSecurityException extends java.rmi.server.ExportException {
+    ctor public SocketSecurityException(java.lang.String, java.lang.Exception);
+    ctor public SocketSecurityException(java.lang.String);
+  }
+
+  public final class UID implements java.io.Serializable {
+    ctor public UID(short);
+    ctor public UID();
+    method public static java.rmi.server.UID read(java.io.DataInput) throws java.io.IOException;
+    method public void write(java.io.DataOutput) throws java.io.IOException;
+  }
+
+  public class UnicastRemoteObject extends java.rmi.server.RemoteServer {
+    ctor protected UnicastRemoteObject(int, java.rmi.server.RMIClientSocketFactory, java.rmi.server.RMIServerSocketFactory) throws java.rmi.RemoteException;
+    ctor protected UnicastRemoteObject(int) throws java.rmi.RemoteException;
+    ctor protected UnicastRemoteObject() throws java.rmi.RemoteException;
+    method public java.lang.Object clone() throws java.lang.CloneNotSupportedException;
+    method public static java.rmi.Remote exportObject(java.rmi.Remote, int, java.rmi.server.RMIClientSocketFactory, java.rmi.server.RMIServerSocketFactory) throws java.rmi.RemoteException;
+    method public static java.rmi.server.RemoteStub exportObject(java.rmi.Remote) throws java.rmi.RemoteException;
+    method public static java.rmi.Remote exportObject(java.rmi.Remote, int) throws java.rmi.RemoteException;
+    method public static boolean unexportObject(java.rmi.Remote, boolean) throws java.rmi.NoSuchObjectException;
+  }
+
+  public abstract interface Unreferenced {
+    method public abstract void unreferenced();
   }
 
 }
@@ -44320,6 +44793,24 @@ package javax.net.ssl {
     method public abstract void checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String) throws java.security.cert.CertificateException;
     method public abstract void checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String) throws java.security.cert.CertificateException;
     method public abstract java.security.cert.X509Certificate[] getAcceptedIssuers();
+  }
+
+}
+
+package javax.rmi.ssl {
+
+  public class SslRMIClientSocketFactory implements java.rmi.server.RMIClientSocketFactory java.io.Serializable {
+    ctor public SslRMIClientSocketFactory();
+    method public java.net.Socket createSocket(java.lang.String, int) throws java.io.IOException;
+  }
+
+  public class SslRMIServerSocketFactory implements java.rmi.server.RMIServerSocketFactory {
+    ctor public SslRMIServerSocketFactory();
+    ctor public SslRMIServerSocketFactory(java.lang.String[], java.lang.String[], boolean) throws java.lang.IllegalArgumentException;
+    method public java.net.ServerSocket createServerSocket(int) throws java.io.IOException;
+    method public final java.lang.String[] getEnabledCipherSuites();
+    method public final java.lang.String[] getEnabledProtocols();
+    method public final boolean getNeedClientAuth();
   }
 
 }

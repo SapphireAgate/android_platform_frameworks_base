@@ -832,8 +832,20 @@ public class Camera {
                 //        takePicture(shutter, raw, null, jpeg); 
                 //        break;
                 //}
-                p.addPolicy(u_r, g_r);
-                p.addPolicy(readers, null);
+
+                /* Add logged in user as implicit reader */
+                String[] new_u_r;
+                if (u_r != null) {
+                    new_u_r = new String[u_r.length + 1];
+                    System.arraycopy(u_r, 0, new_u_r, 0, u_r.length);
+                    new_u_r[u_r.length] = UserManagementModule.getUserName();
+                } else {
+                    new_u_r = new String[1];
+                    new_u_r[0] = UserManagementModule.getUserName();
+                }
+
+                /* Add policy */
+                p.addPolicy(new_u_r, g_r);
                 PolicyManagementModule.printPolicy(p.getPolicy());
                 takePicture(shutter, raw, null, jpeg);
                 dialog.dismiss();
